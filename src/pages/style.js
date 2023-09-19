@@ -171,6 +171,9 @@ export const Caracter = styled.View`
 `;
 
 export const CharacterContainer = styled.View`
-    align-items: center;
-    margin: 0 20px 30px;
+    font-size: 14px;
+    color: #333;
+    font-weight: bold;
+    margin-top: 4px;
+    text-align: center;
 `;
