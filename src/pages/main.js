@@ -12,9 +12,9 @@ import {
   CharacterContainer,
   ProfileButton,
   ProfileButtonText,
-  Name
+  Name,
+  CharacterImage
 } from './style';
-import Character from './character';
 
 export default class Main extends Component {
   state = {
@@ -25,7 +25,6 @@ export default class Main extends Component {
 
   async componentDidMount() {
     const cards = await AsyncStorage.getItem('cards');
-
     if (cards) {
       this.setState({ cards: JSON.parse(cards) });
     }
@@ -33,17 +32,16 @@ export default class Main extends Component {
 
   async componentDidUpdate(_, prevState) {
     const { cards } = this.state;
-
     if (prevState.cards !== cards) {
       await AsyncStorage.setItem('cards', JSON.stringify(cards));
     }
   }
 
   handleAddCard = async () => {
-    try {
-      const { cards, newCard } = this.state;
-      this.setState({ loading: true });
+    const { cards, newCard } = this.state;
+    this.setState({ loading: true });
 
+    try {
       const response = await api.get(`/character/?name=${newCard}&status=alive`);
 
       if (response.status === 200 && response.data && response.data.results && response.data.results[0]) {
@@ -61,17 +59,25 @@ export default class Main extends Component {
         });
 
         Keyboard.dismiss();
-        console.log('Personagem adicionado:', data.name);
       } else {
-        console.error('Falha na solicitação para a API');
         this.setState({ loading: false });
+        console.error('Request to API failed');
       }
     } catch (error) {
-      console.error('Erro:', error);
-      alert('Personagem não encontrado!');
       this.setState({ loading: false });
+      console.error('Error:', error);
     }
   };
+
+  handleDetalhes = (id) => {
+    console.log("Akiojjj");
+  }
+
+  handleRemoveCard = (id) => {
+    const { cards } = this.state;
+    const newCards = cards.filter(card => card.id !== id);
+    this.setState({ cards: newCards });
+  }
 
   render() {
     const { cards, newCard, loading } = this.state;
@@ -103,6 +109,13 @@ export default class Main extends Component {
           renderItem={({ item }) => (
             <CharacterContainer>
               <Name>{item.name}</Name>
+              <CharacterImage source={{ uri: item.image }} />
+              <ProfileButton onPress={() => this.handleDetalhes(item.id)}>
+                <ProfileButtonText>Detalhes</ProfileButtonText>
+              </ProfileButton>
+              <ProfileButton onPress={() => this.handleRemoveCard(item.id)}>
+                <ProfileButtonText>Remover</ProfileButtonText>
+              </ProfileButton>
             </CharacterContainer>
           )}
         />

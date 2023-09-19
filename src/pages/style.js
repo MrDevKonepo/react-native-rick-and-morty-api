@@ -42,28 +42,11 @@ export const User = styled.View`
     margin: 0 20px 30px;
 `;
 
-export const Avatar = styled.Image`
-    width: 64px;
-    height: 64px;
-    border-radius: 32px;
-    background: #eee;
-`;
-
 export const Name = styled.Text`
-    font-size: 14px;
+    font-size: 18px;
     color: #333;
     font-weight: bold;
-    margin-top: 4px;
-    text-align: center;
-`;
-
-export const Bio = styled.Text.attrs({
-    numberOfLines: 2,
-})`
-    font-size: 13px;
-    line-height: 18px;
-    color: #999;
-    margin-top: 5px;
+    margin: 8px;
     text-align: center;
 `;
 
@@ -89,56 +72,6 @@ export const Header = styled.View`
     justify-content: center;
 `;
 
-export const Avatarperfil = styled.Image`
-    width: 100px;
-    height: 100px;
-    border-radius: 50px;
-    background: #eee;
-`;
-
-export const Nameperfil = styled.Text`
-    font-siz: 16px;
-    color: #333;
-    font-weight: bold;
-    margin-top: 4px;
-    text-align: center;
-`;
-
-export const Bioperfil = styled.Text`
-    font-size: 15px;
-    line-height: 18px;
-    color: #999;
-    margin-top: 5px;
-    text-align: center;
-`;
-
-export const Stars = styled.FlatList.attrs({
-    showVerticalScrollIndicator: false,
-})`
-    margin-top: 20px;
-`;
-
-export const Starred = styled.View`
-    background: #f5f5f5;
-    border-radius: 4px;
-    padding: 10px 15px;
-    margin-bottom: 20px;
-    flex-direction: row;
-    align-items: center;
-`;
-
-export const OwnerAvatar = styled.Image`
-    width: 42px;
-    height: 42px;
-    border-radius: 21px;
-    background: #eee;
-`;
-
-export const Info = styled.View`
-    margin-left: 10px;
-    flex: 1;
-`;
-
 export const Title = styled.Text.attrs({
     numberOfLines: 1,
 })`
@@ -154,15 +87,11 @@ export const Author = styled.Text`
 `;
 
 export const CharacterImage = styled.Image`
-  width: 50px;
-  height: 50px;
-  border-radius: 25px;
-  margin-right: 10px;
-`;
-
-export const CharacterText = styled.Text`
-  font-size: 16px;
-  font-weight: bold;
+    width: 120px;
+    height: 120px;
+    border-radius: 32px;
+    background: #eee;
+    alignSelf: center;
 `;
 
 export const Caracter = styled.View`
