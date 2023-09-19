@@ -9,10 +9,10 @@ import {
   Input,
   SubmitButton,
   List,
-  CharacterContainer,  // Adicionado
+  CharacterContainer,
   ProfileButton,
   ProfileButtonText,
-  Name                  // Adicionado
+  Name
 } from './style';
 import Character from './character';
 
@@ -44,14 +44,14 @@ export default class Main extends Component {
       const { cards, newCard } = this.state;
       this.setState({ loading: true });
 
-      const response = await api.get(`/character/?name=${newCard}`);
+      const response = await api.get(`/character/?name=${newCard}&status=alive`);
 
-      if (response.status === 200) {
+      if (response.status === 200 && response.data && response.data.results && response.data.results[0]) {
         const data = {
-          id: response.data.id,
-          name: response.data.name,
-          status: response.data.status,
-          image: response.data.image,
+          id: response.data.results[0].id,
+          name: response.data.results[0].name,
+          status: response.data.results[0].status,
+          image: response.data.results[0].image,
         };
 
         this.setState({
@@ -61,11 +61,13 @@ export default class Main extends Component {
         });
 
         Keyboard.dismiss();
+        console.log('Personagem adicionado:', data.name);
       } else {
         console.error('Falha na solicitação para a API');
         this.setState({ loading: false });
       }
     } catch (error) {
+      console.error('Erro:', error);
       alert('Personagem não encontrado!');
       this.setState({ loading: false });
     }
@@ -95,35 +97,15 @@ export default class Main extends Component {
           </SubmitButton>
         </Form>
         <List
-  showsVerticalScrollIndicator={false}
-  data={cards}
-  //keyExtractor={(item) => item.id.toString()}
-  keyExtractor={(item) => (item && item.id ? item.id.toString() : 'fallback-key')}
-  renderItem={({ item }) => {
-    return (
-      <CharacterContainer>
-        <Name>{item.name}</Name>
-        <ProfileButton
-          onPress={() => {
-            // Implemente a ação quando o botão for pressionado
-          }}
-        >
-          <ProfileButtonText>Ver Detalhes</ProfileButtonText>
-        </ProfileButton>
-        <ProfileButton
-          onPress={() => {
-            this.setState({
-              cards: this.state.cards.filter(card => card.id !== item.id),
-            });
-          }}
-          style={{ backgroundColor: '#FFC0CB', borderRadius: 10 }}
-        >
-          <ProfileButtonText>Excluir</ProfileButtonText>
-        </ProfileButton>
-      </CharacterContainer>
-    );
-  }}
-/>
+          showsVerticalScrollIndicator={false}
+          data={cards}
+          keyExtractor={(card, index) => `${card.id}-${index}`}
+          renderItem={({ item }) => (
+            <CharacterContainer>
+              <Name>{item.name}</Name>
+            </CharacterContainer>
+          )}
+        />
       </Container>
     );
   }
