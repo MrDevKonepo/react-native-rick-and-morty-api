@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Keyboard, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useNavigation } from '@react-navigation/native';
 import api from '../services/api';
 import {
   Container,
@@ -45,11 +46,17 @@ export default class Main extends Component {
       const response = await api.get(`/character/?name=${newCard}&status=alive`);
 
       if (response.status === 200 && response.data && response.data.results && response.data.results[0]) {
+
+        const episodiosOrdenados = [...response.data.results[0].episode].sort();
+        const primeiroEpisodio = episodiosOrdenados[0]
+
         const data = {
           id: response.data.results[0].id,
           name: response.data.results[0].name,
           status: response.data.results[0].status,
           image: response.data.results[0].image,
+          location: response.data.results[0].location.name,
+          episode: primeiroEpisodio
         };
 
         this.setState({
@@ -70,7 +77,18 @@ export default class Main extends Component {
   };
 
   handleDetalhes = (id) => {
-    console.log("Akiojjj");
+    const { cards } = this.state;
+    const { navigation } = this.props; 
+  
+    const card = cards.find(c => c.id === id);
+  
+    navigation.navigate('Character', {
+      name: card.name,
+      image: card.image,
+      status: card.status,
+      location: card.location,
+      episode: card.episode
+    });
   }
 
   handleRemoveCard = (id) => {

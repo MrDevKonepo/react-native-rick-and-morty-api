@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login from './pages/login';
 import User from './pages/user';
 import Main from './pages/main';
+import Character from './pages/character';
 
 const Stack = createStackNavigator();
 
@@ -35,6 +36,17 @@ export default function Routes() {
                 }}/>
                 <Stack.Screen name="main" component={Main} options={{
                     title: 'Buscar Personagem',
+                    headerTitleAlign: 'center',
+                    headerStyle:{
+                        //backgorundColor:'#3498db',
+                    },
+                    headerTitleStyle:{
+                        fontWeight: 'bold',
+                        color: '#bbb'
+                    }
+                }}/>
+                <Stack.Screen name="Character" component={Character} options={{
+                    title: 'Detalhes do Personagem',
                     headerTitleAlign: 'center',
                     headerStyle:{
                         //backgorundColor:'#3498db',
